@@ -1,0 +1,81 @@
+function solution(arrows) {
+    var answer = 0;
+    var map = new Map();
+    var point = [0,0]
+    
+    for(var idx in arrows){
+
+        //현재 지점이 기록되어있지 않다면 map에 등록
+        if(!map.has(point)){
+            map.set(point,new Set());
+        }
+        
+        //만약 이 직선이 처음 나온 직선이라면
+        if(!map.get(point).has(arrows[idx])){
+            //map의 현재 지점에 현재 직선 추가
+            map.get(point).add(arrows[idx])
+            //대각선의 경우 교차가 발생했는지 확인하고 발생했을 경우 카운트++
+            if(arrows[idx] == 1 || arrows[idx] == 3 ){
+                if(map.has(point[0]+1+"|"+point[1])){
+                    if(map.get(point[0]+1+"|"+point[1]).has(8-arrows[idx])){
+                        answer++
+                    }
+                }
+            }else if(arrows[idx] == 5 || arrows[idx] == 7){
+                if(map.has(point[0]-1+"|"+point[1])){
+                    if(map.get(point[0]-1+"|"+point[1]).has(8-arrows[idx])){
+                        answer++
+
+                    }
+                }
+            }
+        }
+        
+        //직선 방향에 따라 현재 지점을 이동
+        switch(arrows[idx]){
+            case 0:
+                point[1]++
+                break;
+            case 1:
+                point[0]++
+                point[1]++
+                break;
+            case 2:
+                point[0]++
+                break;
+            case 3:
+                point[0]++
+                point[1]--
+                break;
+            case 4:
+                point[1]--
+                break;
+            case 5:
+                point[0]--
+                point[1]--
+                break;
+            case 6:
+                point[0]--
+                break;
+            case 7:
+                point[0]--
+                point[1]++
+                break;   
+        }
+        
+        //이동한 지점이 처음 방문한 지역일 경우 map에 등록
+        if(!map.has(point)){
+            map.set(point,new Set());
+        }else{//처음 방문한 지역이 아닐 경우
+            //새로운 직선인지 확인하고 새로운 직선이라면 카운트++
+            if(!map.get(point).has(arrows[idx]>=4 ? (arrows[idx]-4) : (arrows[idx]+4))){
+                answer++
+            }
+        }
+        //현재 지점에 이번에 지나온 직선 기록
+        arrows[idx]>=4 ? map.get(point).add(arrows[idx]-4) : map.get(point).add(arrows[idx]+4)
+
+    }
+    console.log(map)
+    return answer;
+}

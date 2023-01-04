@@ -1,0 +1,28 @@
+function solution(survey, choices) {
+    var answer = '';
+    let map = new Map();
+    const types = ["RT","CF","JM","AN"]
+    //타입들을 담아둔 types에 담긴 내용들로 map 내용물 생성
+    for(var i=0; i<types.length ; i++){
+        map.set(types[i].split('')[0],0)
+           .set(types[i].split('')[1],0)
+    }
+    
+    //설문 내용을 map에 기록
+    for(var i=0 ; i<survey.length ; i++){
+        var b = survey[i].split('')[1]
+        map.set(b,map.get(b) + choices[i]-4)
+    }
+    
+    //정답내용 기록
+    for(var i=0; i<types.length ; i++){
+        var a = types[i].split('')[0]
+        var b = types[i].split('')[1]
+        answer += pushAnswer(map,a,b)
+    }
+      
+    return answer;
+}
+
+//answer에 정답 내용 기록하는 함수
+const pushAnswer = (map,a,b) => map.get(a)<map.get(b) ? b:a

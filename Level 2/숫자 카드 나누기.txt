@@ -1,0 +1,55 @@
+import java.util.*;
+import java.util.stream.Collectors;
+
+class Solution {
+    public int solution(int[] arrayA, int[] arrayB) {
+        int answer = 0;
+        
+        int resultA = AllDivisor(arrayA,arrayB);
+        int resultB = AllDivisor(arrayB,arrayA);
+        
+        answer = Math.max(resultA,resultB);
+        
+        return answer;
+    }
+    
+    
+    //조건을 만족하는 arrayA의 최대공약수를 구하는 함수
+    public static int AllDivisor(int[] arrayA,int[] arrayB){
+        ArrayList<Integer> divisorListA = MinDivisor(arrayA);
+        int result = 0;
+        
+        for(int num:divisorListA){
+            boolean check = true;
+            for(int i=0;i<arrayA.length;i++){
+                if(arrayA[i]%num!=0 || arrayB[i]%num==0){
+                    check = false;
+                    break;
+                }
+            }
+            if(check){
+                result = num;
+                break;
+            }
+        }
+
+        return result;
+    }
+    
+    //array에서 최소인 수의 약수 리스트를 내림차순으로 반환하는 함수
+    public static ArrayList<Integer> MinDivisor(int[] array){
+        ArrayList<Integer> divisorList = new ArrayList<>();
+        int min = Arrays.stream(array).min().getAsInt();
+    
+        for(int i=min;i>1;i--){
+            if(min%i==0){
+                divisorList.add(i);
+            } 
+        }
+        
+        return divisorList;
+    }
+}
+
+
+

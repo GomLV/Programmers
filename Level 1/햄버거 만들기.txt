@@ -1,0 +1,14 @@
+function solution(ingredient) {
+    let count = 0;
+    var i=0
+    while(i<=ingredient.length){
+        if (ingredient.slice(i-4, i).join('') === '1231') {
+            count++;
+            ingredient.splice(i-4, 4);
+            i -= 3;
+        }
+        i++
+    }
+
+    return count;
+}

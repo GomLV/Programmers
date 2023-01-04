@@ -1,0 +1,11 @@
+const solution = babbling => babbling
+                                .filter(x=>/^(aya|ye|woo|ma)+$/.test(x)
+                                        && !/(aya|ye|woo|ma)\1+/.test(x)).length
+
+//const solution = babbling => babbling
+//                                .filter(x=>/^(aya||ye||woo||ma)+$/.test(x))
+//                                .filter(x=>!x.includes("ayaaya")
+//                                        && !x.includes("yeye")
+//                                        && !x.includes("woowoo")
+//                                        && !x.includes("mama")).length
+

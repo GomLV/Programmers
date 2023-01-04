@@ -1,0 +1,43 @@
+import java.util.*;
+class Solution {
+    public int[] solution(String[] id_list, String[] report, int k) {
+        int[] answer = new int[id_list.length];
+        //report 중복제거 HashSet
+        HashSet<String> reportSet = new HashSet<>(Arrays.asList(report));
+        //reporter 기준으로 신고내역 정리
+        HashMap<String, HashSet<String>> reportMap = new HashMap<>();
+        //reported가 신고받은 횟수 기록
+        HashMap<String, Integer> reportedMap = new HashMap<>();
+
+
+        
+        for(String reportInfo : reportSet){
+            //reportSet의 내용을 reporter와 reported로 분리
+            String reporter = reportInfo.split(" ")[0];
+            String reported = reportInfo.split(" ")[1];
+            //키값이 존재하면 null 없으면 값을 넣음
+            reportMap.putIfAbsent(reporter, new HashSet<String>(){{
+                add(reported);
+            }});
+            //reporter가 신고한 사람으로 reported를 추가
+            reportMap.get(reporter).add(reported);
+            //reported가 신고당한 횟수를 누적
+            reportedMap.put(reported, reportedMap.getOrDefault(reported, 0)+1);
+        }
+        
+        //신고 횟수에 따라 다른 처리
+        for (String reported : reportedMap.keySet()){
+            //이 신고자가 신고받은 횟수를 저장한 변수
+            int reportedCount = reportedMap.get(reported);
+            if(reportedCount >= k){ //신고가 기준을 넘어설때
+                for(int i=0; i<id_list.length; i++){//신고자를 찾음
+                    if(reportMap.containsKey(id_list[i]) && reportMap.get(id_list[i]).contains(reported)) {//신고자가 신고한 이력이 있을경우 +1
+                        answer[i]++;
+                    }
+                }
+            }
+        }
+
+        return answer;
+    }
+}

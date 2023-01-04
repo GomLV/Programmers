@@ -1,0 +1,18 @@
+function solution(n, s) {
+    var answer = Array(n);
+    
+    //나눴을 때 소수점을 뺀 값
+    var element = ~~(s/n)
+    
+    //조건에 따라 정답 입력
+    if(s<n){
+        answer = [-1]
+    }else{
+        answer.fill(element)
+        remain = s%n
+        for(var i = 1; i<remain+1 ; i++){
+            answer[answer.length-i]++
+        }
+    }
+    return answer;
+}

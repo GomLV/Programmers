@@ -1,0 +1,30 @@
+import java.util.*;
+class Solution {
+    public int solution(String s) {
+        int answer = 0;
+        char[] arrayS = s.toCharArray();
+        int lengthS = arrayS.length;
+        int start = 0;
+        int end = 0;
+        
+        while(lengthS>start){
+            char x = arrayS[start];
+            int cntX = 0;
+            int cntY = 0;
+            for(int i=start; i<lengthS ;i++){
+                end = i;
+                if(x == arrayS[i]) cntX++;
+                else cntY++;
+                
+                if(cntX==cntY) break;
+                
+            }
+
+            start = end+1;
+            answer++;
+        }
+        
+        
+        return answer;
+    }
+}

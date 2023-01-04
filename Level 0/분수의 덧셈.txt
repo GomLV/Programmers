@@ -1,0 +1,11 @@
+const solution = (denum1,num1,denum2,num2) => 
+                    [denum = (denum1*num2 + denum2*num1), num = (num1*num2)]
+                        .map(x=>x/abbreviationN(denum,num))
+                             
+const abbreviationN = (denum,num) => {
+    var returnNum = 1;
+    for(var i=1;i<=denum;i++){
+        if(num%i==0&&denum%i==0) returnNum = i; 
+    }
+    return returnNum
+}

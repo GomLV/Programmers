@@ -1,0 +1,26 @@
+function solution(operations) {
+    var answer = [];
+    var queue = [];
+    
+    //opreations 분석 및 동작 수행
+    for(var idx in operations){
+        if(operations[idx].includes("I ")){
+            //삽입
+            queue.push(+(operations[idx].split("I ")[1]))
+        }else if(operations[idx].includes("D -")){
+            //최솟값을 삭제하기 위해 정렬
+            queue.sort((a,b)=>b-a)
+            queue.pop()
+        }else if(operations[idx].includes("D ")){
+            //최댓값을 삭제하기 위해 정렬
+            queue.sort((a,b)=>a-b)
+            queue.pop()
+        }
+    }
+    
+    //내림차순 정렬 이후 정답 넣기
+    queue.sort((a,b)=>b-a)
+    answer = queue.length<1 ? [0,0] : [queue[0],queue[queue.length-1]] 
+    
+    return answer;
+}

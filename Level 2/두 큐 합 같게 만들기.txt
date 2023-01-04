@@ -1,0 +1,47 @@
+import java.util.*;
+class Solution {
+    public int solution(int[] queue1, int[] queue2) {
+        int answer = -2;
+        int count = 0;
+        int tmp = -1;
+        int len = queue1.length;
+        Queue<Integer> que1 = new LinkedList<>();
+        Queue<Integer> que2 = new LinkedList<>();
+        //각각 큐1, 큐2의 합
+        int sum1 = 0,sum2 = 0;
+        
+        //각 큐에 카드 넣기
+        for(int i=0; i<len; i++){
+            sum1 += queue1[i];
+            que1.offer(queue1[i]);
+            sum2 += queue2[i];
+            que2.offer(queue2[i]);
+        }
+        
+
+        //조건이 만족되지 않았다면
+        while(sum1 != sum2){
+            
+            //카드 옮기기
+            if(sum1 > sum2){
+                tmp = que1.poll();
+                sum1 -= tmp;
+                que2.offer(tmp);
+                sum2 += tmp;
+            }else{
+                tmp = que2.poll();
+                sum2 -= tmp;
+                que1.offer(tmp);
+                sum1 += tmp;
+            }
+            count++;
+            //불가능 판정
+            if(count>len*3) return -1;
+        }
+        
+        answer = count;
+        return answer;
+    }
+    
+
+}

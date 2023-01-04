@@ -1,0 +1,1 @@
+const solution = n => Array(n).fill(1).map((v,i)=>v+i).filter(x=>n%x==0).length

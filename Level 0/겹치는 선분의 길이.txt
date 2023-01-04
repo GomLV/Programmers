@@ -1,0 +1,23 @@
+function solution(lines) {
+    var answer = 0;
+    //최소 지점과 최대 지점을 구함
+    const min = Math.min(...lines.reduce((a,c)=>[...a,...c],[]))
+    const max = Math.max(...lines.reduce((a,c)=>[...a,...c],[]))
+    var cnt = 0;
+    
+    //최소 지점부터 최대 지점까지의 점 중에서 지나는 선이 2개 이상인 경우 answer++
+    for(var i=min ; i<max ; i++){
+        for(var j=0 ; j<lines.length ; j++){
+            if(i>=lines[j][0] && i<lines[j][1]){
+                cnt++
+            }
+            if(cnt>1){
+                answer++
+                break
+            }
+        }
+        cnt = 0
+    }
+    
+    return answer;
+}

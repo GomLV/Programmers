@@ -1,0 +1,21 @@
+function solution(k, room_number) {
+    var answer = [];
+    var room = new Map();
+    
+    for(var n in room_number){
+        var tmpList = [];
+        while(1){
+            if(!room.has(room_number[n])){//방이 비어있을때
+                room.set(room_number[n], room_number[n]+1)
+                for(var tmp in tmpList){
+                    room.set(tmpList[tmp], room_number[n]+1)
+                }
+                break
+            }else{//방에 배정된 사람이 있을때
+                tmpList.push(room_number[n])
+                room_number[n] = room.get(room_number[n])
+            }
+        }
+    }
+    return room_number;
+}

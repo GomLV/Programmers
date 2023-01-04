@@ -1,0 +1,49 @@
+import java.util.*;
+
+class Solution {
+    public double[] solution(int k, int[][] ranges) {
+        double[] answer = new double[ranges.length];
+        List<Integer> collatz = new ArrayList<>();
+        List<Double> area = new ArrayList<>();
+        
+        //int k 우박수열을 구한다.
+        //구한 우박수열을 배열에 저장한다.
+        collatz.add(k);
+        while(k>1){
+            if(k%2==0){
+                k/=2;
+            }else{
+                k*=3;
+                k+=1;
+            }
+            collatz.add(k);
+        }
+
+        //구한 우박수열의 각 공간의 면적을 구함
+        for(int i=0;i<collatz.size()-1;i++){
+            double size = (collatz.get(i)+collatz.get(i+1))/2.0;
+            area.add(size);
+        }
+
+        
+        //ranges에서 시작지점과 종료지점을 받아서 결과값 출력
+        for(int i=0; i<ranges.length;i++){
+            int start = ranges[i][0];
+            int end = area.size()+ranges[i][1];
+            
+            if(start == end) {
+                answer[i] = 0;
+            }else if(start>end) {
+                answer[i] = -1;
+            }else{
+                double sum = 0;
+                for(int j=start; j<end;j++){
+                    sum += area.get(j);
+                }
+                answer[i] = sum;
+            }
+        }
+        
+        return answer;
+    }
+}

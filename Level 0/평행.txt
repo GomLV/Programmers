@@ -1,0 +1,21 @@
+const solution = dots => checkDuplication(line(dots).reduce((a,c)=>[...a,...c],[]))
+
+const line = dots => {
+    var result = []
+    for(var i = 0; i < dots.length ; i++){
+        var slope = []
+        for(var j = dots.length-1 ; j > i ; j--){
+            var x = dots[i][0] - dots[j][0]
+            var y = dots[i][1] - dots[j][1]
+            slope.push(y/x)
+        }
+        result.push(slope)
+    }
+    return result
+}
+
+const checkDuplication = slopes => {
+    var set = new Set(slopes)
+    if(set.size == slopes.length) return 0
+    else return 1
+}

@@ -1,0 +1,7 @@
+//내 풀이
+//const solution = babbling => babbling
+//                                .filter(x=>x.split(/aya|ye|woo|ma/g)
+//                                            .filter(y=>y!="")
+//                                            .length==0).length
+const solution = babbling => babbling.filter(x=>/(aya|ye|woo|ma)+/.test(x)).length
+//const solution = babbling => /^(aya|ye|woo|ma)$/.test("yemawoo")
