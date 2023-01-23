@@ -1,0 +1,57 @@
+import java.util.*;
+
+class Solution {
+
+    public int solution(int[] cards) {
+        //박스 객체를 보관할 배열 생성
+        Box[] boxArray = new Box[cards.length];
+        List<Integer> cycle = new ArrayList<>();
+        
+        //박스 객체를 카드 숫자만큼 생성
+        for(int i = 0 ; i<cards.length; i++){
+            boxArray[i] = new Box(cards[i]);
+        }
+        
+        //박스 객체들의 사이클을 찾아 사이클 리스트에 정리
+        for(int j = 0; j<boxArray.length; j++){
+            if(!boxArray[j].visited){
+                cycle.add(checkCycle(j,boxArray,0));
+            }
+        }
+        
+        //리스트를 정렬하여 가장 큰 사이클 두개의 길이를 곱한 값을 리턴, 단 사이클이 하나일땐 0을 리턴
+        return cycle.size() > 1 ? cycle.stream().sorted((a,b)->b-a).limit(2).reduce((a,c)->a*c).get() : 0;
+        
+    }
+    
+    //사이클을 찾아 길이를 반환하는 함수
+    public int checkCycle(int i, Box[] boxArray,int count){
+        if(boxArray[i].visited) {
+            return count;
+        }else{
+            boxArray[i].visit();
+            return checkCycle(boxArray[i].boxCard-1,boxArray,count+1);
+        }
+
+    }
+    
+    //박스 객체
+    public class Box {
+        //박스에 들어있는 카드
+        private int boxCard;
+        //박스의 방문 여부
+        private boolean visited = false;
+
+        public Box(int boxCard){
+            this.boxCard = boxCard;
+        }
+        
+        //박스에 방문
+        public void visit(){
+            this.visited = true;
+        }
+
+    }
+
+}
+

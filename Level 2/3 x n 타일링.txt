@@ -1,0 +1,33 @@
+import java.util.*;
+
+class Solution {
+    //정답을 보관할 해시맵 선언
+    private static HashMap<Integer,Long> map;
+    private static int mod = 1000000007;
+    
+    public int solution(int n) {
+        map = new HashMap<>();
+        
+        //해시맵에 기본 요소들 넣어줌
+        map.put(0,Long.valueOf(1));
+        map.put(2,Long.valueOf(3));
+        
+        //홀수일경우 무조건 0이기 때문에 0
+        if(n%2>0) return 0; 
+        recurrence(n);     
+        return map.get(n).intValue();
+        
+    }
+    
+    //점화식
+    public static void recurrence(int n){
+        if(n-2<1){
+            return;
+        }
+        recurrence(n-2);
+        long data = (map.get(n-2) * 4) - map.get(n-4);
+        map.put(n,data % mod);
+        
+        
+    } 
+}
