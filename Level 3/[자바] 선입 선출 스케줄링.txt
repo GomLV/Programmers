@@ -1,0 +1,77 @@
+import java.util.*;
+
+class Solution {
+    public int solution(int n, int[] cores) {
+        
+        Core[] CoreArr = new Core[cores.length];
+        
+        for(int i=0; i<cores.length; i++){
+            CoreArr[i] = new Core(cores[i]);
+        }
+
+        int max = cores[0]*n;                               //코어에 입력이 끝나는 시점(최대)
+        int min = (int)Math.ceil((double)n/cores.length);   //코어에 입력이 끝나는 시점(최소)
+        
+        //코어에 입력이 끝나는 시점을 찾는 이분탐색법
+        while(min<=max){
+            int mid = (max + min)/2;
+            //완수한 작업량
+            int leftJob = leftJob(n,mid,cores);
+            
+            if(leftJob<=0){             //남은 작업이 없을 경우
+                max = mid - 1;   
+            }else{                      //남은 작업이 있을 경우
+                min = mid + 1;
+            }
+        }
+        
+        //left 마지막 입력 직전 남은 작업량
+        int left = leftJob(n,max,cores);
+        int ansIdx = -1;
+        
+        //마지막 입력 기준으로 모든 코어의 남은 시간을 체크
+        for(int i=0; i<cores.length; i++){
+            //coreLeft = 이 코어의 남은 시간
+            int coreLeft = CoreArr[i].checkCore(max+1);
+            if(coreLeft < 1 && left > 0){   //코어가 작업중이 아니고 남은 작업이 있다면
+                left--;
+                ansIdx = i+1;
+            }
+            if(left < 1) break;
+        }
+
+    
+        return ansIdx;
+
+    }
+    
+    //입력된 시간에 아직 작업중이 아닌 작업량을 return
+    public static int leftJob(int n,int time, int[] cores){
+        int cnt = 0;
+        for(int i=0; i<cores.length; i++){
+            cnt += time/cores[i] + 1;
+        }
+        return n-cnt;
+    }
+    
+    //코어 객체 생성
+    public class Core{
+        private int speed;
+        private int leftTime = 0;
+        
+        public Core(int p){
+            this.speed = p;
+        }
+           
+        //작업량이 무한이라고 가정하고 해당 시간 기준으로 남은 작업시간을 구함
+        public int checkCore(int time){
+            long tmp = this.speed * (int)Math.ceil((double)time/this.speed);
+            if(time>this.speed){
+                return (int)(tmp - time);
+            }else{
+                return this.speed - time;
+            }
+        }
+        
+    }
+}
